@@ -12,3 +12,25 @@ use mydb
 show collections
 db.counters.find()
 ```
+
+
+# Swarm version
+## Run
+```
+docker swarm init
+docker service create --name registry --publish published=5000,target=5000 registry:2
+docker-compose -f docker-cluster-compose.yaml build
+docker-compose -f docker-cluster-compose.yaml push
+docker stack deploy --compose-file docker-cluster-compose.yaml mystack
+```
+
+You can then view the status of the deployed stack like this:  
+``docker stack services mystack``  
+
+
+## Stop swarm container
+```
+docker stack rm mystack
+docker service rm registry
+docker swarm leave --force
+```

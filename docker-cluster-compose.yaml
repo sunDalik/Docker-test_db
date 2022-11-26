@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  docker_db_test:
+    image: 127.0.0.1:5000/mystack
+    build: .
+    deploy:
+      replicas: 4
+    environment:
+      - "NODE_ENV:production"
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    links:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+
+volumes:
+  data:
